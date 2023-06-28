@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plataforma ESG - Energia Solar</title>
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="nova.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="#recursos">Recursos</a></li>
+            <li><a href="#planos">Planos</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero-section">
+      <div class="container">
+        <h1>Bem-vindo à Plataforma ESG</h1>
+        <p>Transforme sua casa em um ambiente sustentável com energia solar.</p>
+        <form onsubmit="enviarSolicitacao(event)">
+          <input type="text" placeholder="Digite seu CEP" class="cep-input"/>
+          <button type="submit">Consultar Endereço</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="recursos" class="features-section">
+      <div class="container">
+        <h2>Recursos</h2>
+        <div class="feature">
+          <img src="painel-solar.png" alt="Painel Solar" />
+          <h3>Painéis Solares de Alta Eficiência</h3>
+          <p>
+            Nossos painéis solares de alta qualidade captam mais energia solar,
+            maximizando a eficiência.
+          </p>
+        </div>
+        <div class="feature">
+          <img
+            src="inteligencia-artificial.png"
+            alt="Inteligência Artificial"
+          />
+          <h3>Inteligência Artificial Integrada</h3>
+          <p>
+            Nossa IA avançada monitora e otimiza o desempenho do sistema de
+            energia solar em tempo real.
+          </p>
+        </div>
+        <div class="feature">
+          <img src="manutencao.png" alt="Manutenção" />
+          <h3>Manutenção e Suporte 24 horas</h3>
+          <p>
+            Oferecemos serviços de manutenção especializados e suporte técnico
+            24 horas para garantir o funcionamento contínuo do seu sistema.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="planos" class="pricing-section">
+      <div class="container">
+        <h2>Planos de Assinatura</h2>
+        <div class="pricing-option">
+          <h3>Plano Premium</h3>
+          <p>Instalação e Manutenção</p>
+          <p>Inteligência Artificial Integrada</p>
+          <p>Suporte 24 horas</p>
+          <button>Assinar</button>
+        </div>
+        <div class="pricing-option">
+          <h3>Plano Pro</h3>
+          <p>Instalação</p>
+          <p>Inteligência Artificial Integrada</p>
+          <button>Assinar</button>
+        </div>
+        <div class="pricing-option">
+          <h3>Plano Basic</h3>
+          <p>Inteligência Artificial Integrada</p>
+          <button>Assinar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="depoimentos" class="testimonial-section">
+      <div class="container">
+        <h2>Depoimentos</h2>
+        <div class="testimonial">
+          <p>
+            "A Plataforma ESG revolucionou a forma como aproveitamos a energia
+            solar em nossa casa. Recomendo a todos que desejam contribuir para
+            um futuro sustentável."
+          </p>
+          <p>- João Silva</p>
+        </div>
+        <div class="testimonial">
+          <p>
+            "Estou impressionado com a eficiência do sistema de energia solar da
+            Plataforma ESG. Economizo muito em minha conta de luz!"
+          </p>
+          <p>- Maria Santos</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="contact-section">
+      <div class="container">
+        <h2>Entre em Contato</h2>
+        <p>Preencha o formulário abaixo e entraremos em contato em breve.</p>
+        <form>
+          <input type="text" placeholder="Nome" />
+          <input type="email" placeholder="E-mail" />
+          <textarea placeholder="Mensagem"></textarea>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2023 Plataforma ESG - Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script>
+      function enviarSolicitacao(event) {
+        event.preventDefault();
+        const cepInput = document.querySelector('input[type="text"]');
+        const cep = cepInput.value;
+
+        // Fazer a chamada para a API do ViaCep
+        axios
+          .get(`https://viacep.com.br/ws/${cep}/json/`)
+          .then(response => {
+            const endereco = response.data;
+
+            if (endereco.erro) {
+              alert('CEP não encontrado');
+            } else {
+              const cidade = endereco.localidade;
+              const estado = endereco.uf;
+              let mensagem = '';
+
+              if (estado === 'SP') {
+                mensagem = 'Atendemos a sua localidade';
+              } else {
+                mensagem = 'Em breve estaremos trabalhando em sua localidade';
+              }
+
+              alert(`${mensagem}`);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            alert('Erro ao fazer a chamada da API');
+          });
+      }
+    </script>
+  </body>
+</html>
